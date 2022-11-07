@@ -1,4 +1,4 @@
-# protopie_py_bridge_examples
+# python3 based ProtoPieConnect bridge apps
 A collection of bridge apps (written in python) that bridges between some typically used communication APIs like MQTT, OSC, Serial, MIDI, etc. to SocketIO, specific to [ProtoPieConnect](https://www.protopie.io/learn/docs/connect/getting-started) and [more details](https://protopie.notion.site/ProtoPie-Connect-Basics-Best-Practices-b68fec1986e9429ca71cc41e3905f095). 
 
 ## Why?
