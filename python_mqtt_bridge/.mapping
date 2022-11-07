@@ -1,0 +1,4 @@
+MQTT->socketIO
+    mapping [topic, messageID, payload, value]
+socketIO->MQTT
+    mapping [messageID, topic, value, payload]
