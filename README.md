@@ -5,7 +5,7 @@ A collection of bridge apps (written in python) that bridges between some typica
 One might come across a situation where they might have to test their prototypes, developed using ProtoPie, with other HW or SW systems. As an example, let's think of a situation where you might have an IoT dashboard designed and you want to test it against some real data, affecting the dashboard items and vice versa, for demo purposes or user testing, what ever it may be. In such a situation, or other similar situations, one would typically have to develop quickly a frontend app (using some JS frameworks or native app dev solutions), based on the UI design, which then can talk to the IoT protocol (let's say the IoT HW is talking in MQTT, for example). Now what if you don't have that frontend developer handy or it's time consuming to develop such an app. Wouldn't it be nice, if your ProtopPie demo app can talk to the hardware or vice versa. 
 
 Now, if our HW device(or other SW system), is talking one of the API from the list, you can deploy one of these bridge apps. 
-
+![system diagram](/assets/system_diagram/system_diagram.001.png "System Diagram")
 
 ## Preparation & Installation:
 1. Make sure you are using python3. 
