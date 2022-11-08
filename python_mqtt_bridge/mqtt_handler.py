@@ -39,11 +39,19 @@ def on_message_from_broker(client, userdata, msg):
     # [NOTE]s:
     # 1. All the 'topics' and 'payloads' are of type <byte> as that's how the MQTTmessage class works.
     # 2. All the values need to be converted to <str> or else io.emit doesn't send the value'
-    protopie_msg = str(msg.topic, 'utf-8')
-    protopie_val = str(msg.payload, 'utf-8')
-    print('[MQTT] RECEIVED Topic: ' + protopie_msg + ' Message: ' + protopie_val, ' from MQTT broker')
-    print('[MQTT] Payload\'s type is:', type(msg.payload))
+    # protopie_msg = str(msg.topic, 'utf-8')
+    if type(msg.topic) is not str:
+        protopie_msg = str(msg.topic, 'utf-8')
+    else:
+        protopie_msg = msg.topic
+    
+    if type(msg.payload) is not str:
+        protopie_val = str(msg.payload, 'utf-8')
+    else:
+        protopie_val = msg.payload
 
+    print('[MQTT] RECEIVED Topic: ' + protopie_msg + ' Message: ' + protopie_val, ' from MQTT broker')
+    # print('[MQTT] Payload\'s type is:', type(msg.payload))
     print(
         '[SOCKET_IO] Relaying MessageId: ', protopie_msg,
         ' Value: ', protopie_val, ' to ProtoPieConnect server')
