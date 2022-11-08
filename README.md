@@ -29,8 +29,6 @@ Now, if our HW device(or other SW system), is talking one of the API from the li
    ```shell
    python3 -m pip install -r requirements.txt
    ```
-7. Now your system and the virtaul env should be ready to test the api specific bridge apps: 
-   ```shell
-   python3 app.py
-   ```
+7. Now your system and the virtaul env should be ready to test the api specific bridge apps. 
+8. Please enter a dedicated dir to understand how the business logic can be configured in a config file.  
 
