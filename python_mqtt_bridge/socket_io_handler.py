@@ -52,6 +52,7 @@ def on_message(data):
 def start_client(addr, port):
     """ When called, will try to connect to the socket io server (in this case, ProtoPieConnect's server)"""
     protopie_connect_addr = 'http://' + addr + ':' + str(port)
+    print("")
     print('[SOCKET_IO] Connecting to ProtoPieConnect server @ ', protopie_connect_addr, ' ...')
     io.connect(protopie_connect_addr)
 

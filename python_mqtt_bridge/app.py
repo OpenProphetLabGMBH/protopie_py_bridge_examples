@@ -24,21 +24,6 @@ import mqtt_handler as mqtt_sys
 import time
 
 
-
-def clear():
-    """ Func for clearing screen based on OS """
-    # for windows
-    if os.name == 'nt':
-        _ = os.system('cls')
-    # for mac and linux(here, os.name is 'posix')
-    else:
-        _ = os.system('clear')
-
-# Clear the screen
-clear()
-print("")
-
-
 def main():
     """ Main entry point of the app """
     sio_sys.start_client(vars.PROTO_PIE_CONNECT_HOST, vars.PROTO_PIE_CONNECT_PORT)
