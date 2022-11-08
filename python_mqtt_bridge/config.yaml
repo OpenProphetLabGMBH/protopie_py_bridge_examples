@@ -29,9 +29,11 @@ mapping:
             - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
             - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
             - ['pot', 'BRIGHTNESS']         # [For IN-PUT mqtt topic 'pot', switch the OUT-PUT socketio messageID to 'BRIGHTNESS']
+            - ['key', 'key']                # [a specific MQTT topic is translated as it is to socket io messageId]
         payload_to_value:
             - ['1', 'Kitchen']              # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '1', switch OUT-PUT value to 'Kitchen']
             - ['2', 'Living Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Living Room']
             - ['3', 'Dining Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Dining Room']
             - ['4', 'Bed Room']             # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Bed Room']
             - ['payload', 'value']          # [For all the IN-PUT mqtt topic: 'pot', swirch all the mqtt payloads, as it is, to OUT-PUT socketio values]
+            - ['payload', 'value']          # [all the MQTT payloads are translated as it is to socketio vlues]
