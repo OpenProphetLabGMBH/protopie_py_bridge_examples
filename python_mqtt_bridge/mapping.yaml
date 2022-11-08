@@ -1,0 +1,16 @@
+direction:
+    - socketio_to_mqtt:
+        - map: 
+            - ["ROOM", "ROOM"]:             # [For IN-PUT socketio messageID "ROOM", keep the OUT-PUT mqtt topic as "ROOM"]    
+                - "value": "payload"            # [For all the IN-PUT socketio value, switch them, as it is, to OUT-PUT mqtt payload]
+            - ["BRIGHTNESS", "BRIGHTNESS"]: # [For IN-PUT socketio messageID "BRIGHTNESS", keep the OUT-PUT mqtt topic as "BRIGHTNESS"]    
+                - "value": "payload"            # [For all the IN-PUT socketio value, switch them, as it is, to OUT-PUT mqtt payload]
+    - mqtt_to_socketio:
+        - map: 
+            - ["pot", "BRIGHTNESS"]:        # [For IN-PUT mqtt topic "pot", switch the OUT-PUT socketio messageID to "BRIGHTNESS"]
+                - "payload": "value"            # [For all the IN-PUT mqtt payload, switch them, as it is, to OUT-PUT socketio values]
+            - ["button", "ROOM"]:           # [For IN-PUT mqtt topic "button", switch the OUT-PUT messageID to "ROOM"]
+                - "1": "Kitchen"                # [For IN-PUT mqtt payload "1", switch OUT-PUT value to "Kitchen"]
+                - "2": "Living Room"            # [For IN-PUT mqtt payload "2", switch OUT-PUT value to "Living Room"]
+                - "3": "Dining Room"            # [For IN-PUT mqtt payload "3", switch OUT-PUT value to "Dining Room"]
+
