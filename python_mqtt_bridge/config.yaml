@@ -10,17 +10,20 @@ bridge_name: 'python_mqtt_bridge'
 mqtt_broker_host: '127.0.0.1'
 mqtt_broker_port: 1200
 
-# The mapping of message flow, itself
+# [TEST] The mapping of message flow, itself
 mapping:
     # Mapping for when we have to translate socketio patterns to mqtt patterns, for different scenarios
     socketio_to_mqtt:
         msgid_to_topic: 
             - ['ROOM', 'ROOM']              # [For IN-PUT socketio messageID "ROOM", keep the OUT-PUT mqtt topic as "ROOM"]
             - ['BRIGHTNESS', 'BRIGHTNESS']  # [For IN-PUT socketio messageID "BRIGHTNESS", keep the OUT-PUT mqtt topic as "BRIGHTNESS"]        
+            - ['BUTTON', 'test_button']
+            - ['BUTTON', 'test_button']
         value_to_payload:
             - ['value', 'payload']          # [For all the IN-PUT socketio valuxe, for messageId 'ROOM', switch them, as it is, to OUT-PUT mqtt payload]
             - ['value', 'payload']          # [For all the IN-PUT socketio value, for messageId 'BRIGHTNESS', switch them, as it is, to OUT-PUT mqtt payload]  
-    
+            - ['on', '1']
+            - ['off', '0']
     # Mapping for when we have to translate maqtt patterns to socketio patterns, for different scenarios
     mqtt_to_socketio:
         topic_to_msgid:

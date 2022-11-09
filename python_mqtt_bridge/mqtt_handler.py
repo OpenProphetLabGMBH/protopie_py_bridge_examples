@@ -9,10 +9,10 @@ __license__ = "APACHE 2.0"
 import paho.mqtt.client as mqtt
 from socket_io_handler import io
 
-from preload import BRIDGE_NAME
 
 # --- MQTT -> SOCKETIO --- #
-import preload
+# import preload
+from preload import BRIDGE_NAME
 from preload import subs_topics_list
 from preload import subs_payloads_list
 from preload import emmission_msgids_list
@@ -61,7 +61,7 @@ def on_message_from_broker(client, userdata, msg):
     protopie_msg = None
     protopie_val = None
 
-    # For all the MQTT topics listed in teh config file
+    # For all the MQTT topics listed in the config file
     for i in range(len(subs_topics_list)):
         #  if one of the topics matches with our input MQTT topic
         if subs_topics_list[i] == mqtt_topic:
@@ -80,7 +80,12 @@ def on_message_from_broker(client, userdata, msg):
             # it simply means, replay the received mqtt payload, as it is, as the socketio value.
             if subs_payloads_list[i] == 'payload' and emmission_values_list[i] == 'value':
                 protopie_val = mqtt_payload
-    if io.connected and protopie_msg and protopie_val:
+        if subs_topics_list[i] != mqtt_topic:
+            print('[MQTT] The topic received is not in our config file.')
+            print('[MQTT] **Some one injected some code to subscribe to an arbitray topic!')
+            protopie_msg = None
+            protopie_val = None
+    if io.connected and protopie_msg is not None and protopie_val is not None:
         print(
             '[SOCKET_IO] Relaying MessageId:\'' + protopie_msg +
             '\', Value:\'' + protopie_val + '\' to ProtoPieConnect server')
