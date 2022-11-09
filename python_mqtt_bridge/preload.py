@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""
+'''
 Load the API configs from the dot env files
-"""
+'''
 
 __author__ = "Saurabh Datta"
 __version__ = "0.1.0"
@@ -16,7 +16,7 @@ import yaml
 import json
 
 def clear():
-    """ Func for clearing screen based on OS """
+    ''' Func for clearing screen based on OS '''
     # for windows
     if os.name == 'nt':
         _ = os.system('cls')
@@ -122,3 +122,6 @@ else:
     print('Patterns in [socketio -> mqtt] don\'t match!')
     print('Check the config file!')
     exit()
+
+
+

@@ -7,12 +7,14 @@ Explanation TBD
 ## TODO:
 
 - [x] Modularize the whole script set.
-- [ ] Format modules to be tested by itself (like `if name == __main__` for main app) 
-- [x] Lint. 
+- [x] Lint.
 - [x] Generalize `mqtt -> socketio` translation layer's business logic through a config file.
 - [x] Generalize `socketio -> mqtt` translation layer's business logic through a config file.
-- [ ] If similar mqtt topics in config file, subscribe only once. 
-- [ ] Apply some arg-parse helpers
-- [ ] Apply a npyscreen based TUI
-- [ ] Give user to choose between script mode and TUI mode (using argparse)
-- [ ] Create tests
+- [x] Handle unintended messages in sockeio client.
+- [x] Clean exit method of `'ctrl-c'`
+- [ ] If similar mqtt topics in config file, subscribe only once.
+- [ ] Apply some arg-parse helpers.
+- [ ] Apply a npyscreen based TUI.
+- [ ] Give user to choose between script mode and TUI mode (using argparse).
+- [ ] Create tests.
+- [ ] Solve: kill threads when exiting in a clean fashion.

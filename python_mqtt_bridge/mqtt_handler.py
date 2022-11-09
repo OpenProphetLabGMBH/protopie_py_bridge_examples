@@ -1,6 +1,6 @@
-"""
+'''
 python paho based module to redirect MQTT messages to Protopie socket messages and vice-versa
-"""
+'''
 
 __author__ = "Saurabh Datta"
 __version__ = "0.1.0"
@@ -9,13 +9,15 @@ __license__ = "APACHE 2.0"
 import paho.mqtt.client as mqtt
 
 # --- MQTT -> SOCKETIO --- #
-# import preload
+from socket_io_handler import io
+
+import preload
 from preload import BRIDGE_NAME
 from preload import subs_topics_list
 from preload import subs_payloads_list
 from preload import emmission_msgids_list
 from preload import emmission_values_list
-from socket_io_handler import io
+
 
 
 mqtt_client = mqtt.Client(
@@ -26,8 +28,9 @@ mqtt_client = mqtt.Client(
     transport="tcp")
 
 def on_broker_connect(client, userdata, flags, rc):
-    """ Callback func that fires on connecting to a broker """
-    print('[MQTT] CONNECTED to BROKER with result code: ', rc, '!')
+    ''' Callback func that fires on connecting to a broker '''
+    print('[MQTT] CONNECTED to BROKER !')
+    print('')
     # subscribe to topic list upon connection
     for topic in subs_topics_list:
         mqtt_client.subscribe(topic)
@@ -35,11 +38,11 @@ def on_broker_connect(client, userdata, flags, rc):
         # [TODO] if multiple same topics subscribe only once ...
 
 def on_broker_disconnect(client, userdata, rc):
-    """ Callback func that fires on getting disconnected from a broker """
+    ''' Callback func that fires on getting disconnected from a broker '''
     print('[MQTT] DIS-CONNECTED from BROKER with result code: ', rc, '!')
 
 def on_message_from_broker(client, userdata, msg):
-    """ Callback func that fires when we receive a message from the broker """
+    ''' Callback func that fires when we receive a message from the broker '''
     # Relay from MQTT -> socketio for PrototPieConnect method
     # [NOTE]s:
     # 1. All the 'topics' and 'payloads' are of type <byte> as that's how the MQTTmessage class works.
@@ -78,21 +81,23 @@ def on_message_from_broker(client, userdata, msg):
             # it simply means, replay the received mqtt payload, as it is, as the socketio value.
             if subs_payloads_list[i] == 'payload' and emmission_values_list[i] == 'value':
                 protopie_val = mqtt_payload
-        if subs_topics_list[i] != mqtt_topic:
-            print('[MQTT] The topic received is not in our config file.')
-            print('[MQTT] **Some one injected some code to subscribe to an arbitray topic!')
-            protopie_msg = None
-            protopie_val = None
-    if io.connected and protopie_msg is not None and protopie_val is not None:
-        print(
-            '[SOCKET_IO] Relaying MessageId:\'' + protopie_msg +
-            '\', Value:\'' + protopie_val + '\' to ProtoPieConnect server')
-        io.emit('ppMessage', {'messageId': protopie_msg, 'value': protopie_val})
+    if protopie_msg is not None and protopie_val is not None:
+        if io.connected:
+            print(
+                '[SOCKET_IO] Relaying MessageId:\'' + protopie_msg +
+                '\', Value:\'' + protopie_val + '\' to ProtoPieConnect server')
+            io.emit('ppMessage', {'messageId': protopie_msg, 'value': protopie_val})
+        else:
+            print('')
+            print('Not connected to socketio server ...')
+            print('Hence not emitting ...')
+            print('But messageId:', protopie_msg, 'value:', protopie_val)
+            print('')
     else:
         print('')
         print('ALERT: One of the required value for socketio trasnmission is None')
         print('MessageId: ', protopie_msg, ', Value: ', protopie_val)
-        print('Not relaying ...')
+        print('Not emitting ...')
         print('')
 
 
@@ -101,15 +106,15 @@ mqtt_client.on_disconnect = on_broker_disconnect
 mqtt_client.on_message = on_message_from_broker
 
 def start_client(addr, port):
-    """ Will try to connect to broker and start a non-blocking loop"""
+    ''' Will try to connect to broker and start a non-blocking loop '''
     print("")
-    print('[MQTT] Connecting to BROKER @ mqtt://' + addr + ':' + str(port) if type(port) is int else port + ' ...')
+    print('[MQTT] Connecting to BROKER @ mqtt://' + addr + ':' + str(port) + ' ...')
     mqtt_client.connect_async(addr, port=int(port), keepalive=60)
     mqtt_client.loop_start()  # Non blocking loop method
 
 def stop_client():
-    """ Will try to stop the thread and dis-connect from broker"""
-    if mqtt_client is not None and mqtt_client.is_connected:
+    ''' Will try to stop the thread and dis-connect from broker '''
+    if mqtt_client is not None and mqtt_client.is_connected():
         print('[MQTT] Dis-Connecting from BROKER ...')
         mqtt_client.loop_stop()
         mqtt_client.disconnect()
