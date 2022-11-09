@@ -61,7 +61,6 @@ def on_message_from_broker(client, userdata, msg):
     # MAPPINGS (BUSINESS LOGIC):
     protopie_msg = None
     protopie_val = None
-
     # For all the MQTT topics listed in the config file
     for i in range(len(subs_topics_list)):
         #  if one of the topics matches with our input MQTT topic
