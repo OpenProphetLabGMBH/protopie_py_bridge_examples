@@ -13,7 +13,6 @@ import os
 # import vars
 from preload import BRIDGE_NAME
 import socketio
-# import time
 # from mqtt_handler import mqtt_client
 
 # -- [SOCKET IO SCHEME] -- #

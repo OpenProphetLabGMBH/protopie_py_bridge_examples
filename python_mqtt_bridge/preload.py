@@ -88,3 +88,6 @@ if (len(subs_topics_list) == len(subs_payloads_list) and len(emmission_msgids_li
 else:
     print("Mapping patterns don't match!")
     print("Check the config file!")
+
+# --- SOCKETIO -> MQTT --- #
+# TBD
