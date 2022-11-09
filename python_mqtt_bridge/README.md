@@ -11,10 +11,9 @@ Explanation TBD
 - [x] Generalize `mqtt -> socketio` translation layer's business logic through a config file.
 - [x] Generalize `socketio -> mqtt` translation layer's business logic through a config file.
 - [x] Handle unintended messages in sockeio client.
-- [x] Clean exit method of `'ctrl-c'`
+- [x] Clean exit method of `'ctrl-c'` (Solve: kill threads when exiting in a clean fashion.)
 - [ ] If similar mqtt topics in config file, subscribe only once.
 - [ ] Apply some arg-parse helpers.
 - [ ] Apply a npyscreen based TUI.
-- [ ] Give user to choose between script mode and TUI mode (using argparse).
+- [ ] Give users choice between script mode and TUI mode (using argparse).
 - [ ] Create tests.
-- [ ] Solve: kill threads when exiting in a clean fashion.
