@@ -7,8 +7,6 @@ __version__ = "0.1.0"
 __license__ = "APACHE 2.0"
 
 import paho.mqtt.client as mqtt
-from socket_io_handler import io
-
 
 # --- MQTT -> SOCKETIO --- #
 # import preload
@@ -17,7 +15,7 @@ from preload import subs_topics_list
 from preload import subs_payloads_list
 from preload import emmission_msgids_list
 from preload import emmission_values_list
-
+from socket_io_handler import io
 
 
 mqtt_client = mqtt.Client(

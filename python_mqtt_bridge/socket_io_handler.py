@@ -8,8 +8,6 @@ __license__ = "APACHE 2.0"
 
 
 # All the main imports
-# import sys
-# import os
 import socketio
 
 # -- [SOCKET IO SCHEME] -- #

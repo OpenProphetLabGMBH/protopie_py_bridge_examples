@@ -1,6 +1,6 @@
 # Linux Box on WiFI AP: xxxx
 # Linux Box IP: xxx.xx.xx.xxx
-# Both MQTT Broker and ProtoPieConnect Embedded are running on the same machine i.e. the Linux Box
+# Both MQTT Broker and ProtoPieConnect-Embedded are running on the same machine i.e. the Linux Box
 
 # ProtoPieConnect configs
 protopie_host: '10.6.1.23'
