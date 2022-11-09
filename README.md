@@ -11,7 +11,7 @@ Now, if our HW device(or other SW system), is talking one of the API from the li
 1. Make sure you are using python3. 
 2. [Install virtualenv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) to your specific system (if you haven't already)
     
-    Every folder contains a virtual environment that I have created while developing the bridge apps, with a nomenclature of the env name as py_pie_API_bridge. 
+> Every folder contains a virtual environment that I have created while developing the bridge apps, with a nomenclature of the env name as py_pie_API_bridge. 
 3. Clone the repo: 
    ```shell
    git clone https://github.com/OpenProphetLabGMBH/protopie_py_bridge_examples.git
