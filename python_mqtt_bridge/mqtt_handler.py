@@ -32,10 +32,13 @@ def on_broker_connect(client, userdata, flags, rc):
     print('[MQTT] CONNECTED to BROKER !')
     print('')
     # subscribe to topic list upon connection
-    for topic in subs_topics_list:
+    # [TODO] if multiple same topics subscribe only once ...
+    topics_list_set = set(subs_topics_list)
+    unique_topics_list = (list(topics_list_set))
+    for topic in unique_topics_list:
         mqtt_client.subscribe(topic)
         print('[MQTT] SUBSCRIBED to TOPIC: \'' + topic + '\'')
-        # [TODO] if multiple same topics subscribe only once ...
+        
 
 def on_broker_disconnect(client, userdata, rc):
     ''' Callback func that fires on getting disconnected from a broker '''
