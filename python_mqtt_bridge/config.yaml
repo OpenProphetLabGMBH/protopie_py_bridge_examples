@@ -10,6 +10,17 @@ bridge_name: 'python_mqtt_bridge'
 mqtt_broker_host: '127.0.0.1'
 mqtt_broker_port: 1200
 
+# NOTE: MQTT Security credentials
+# The mqtt user name and pwd are stored in a .env file and decoupled from here for security reasons
+# Note: How to configure a MQTT broker with security credentials:
+# 1. create a .env file (touch .env) in the same directory
+# 2. enter the following data in that .env file. 
+#    MQTT_USR='<username you used to configure your broker>'
+#    MQTT_PWD='<password you used to configure your broker>'
+# How to configure a mosquitto broker with username and password? 
+#   Answer: https://gist.github.com/dattasaurabh82/c175aa913345cca64db55cb6983aebb9
+
+
 # [TEST] The mapping of message flow, itself
 mapping:
     # Mapping for when we have to translate socketio patterns to mqtt patterns, for different scenarios

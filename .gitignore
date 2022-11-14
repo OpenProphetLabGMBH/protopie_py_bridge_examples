@@ -1,1 +1,2 @@
 python_mqtt_bridge/__pycache__/*
+python_mqtt_bridge/*.env

@@ -12,10 +12,24 @@
 1. Make sure you have a mqtt broker running on a machine (e.g.: make sure you have [mosquitto](https://mosquitto.org/download/) installed and then run: `mosquitto -v -p <a port>`)
 2. In the `config.yaml`, change the value for `mqtt_broker_host` and `mqtt_broker_port` to the IP address of the machine and the port you are using, respectively.
 3. Make sure that [ProtoPieConnect Desktop or ProtoPieConnect Embedded](https://protopie.notion.site/Desktop-vs-Embedded-6f1de40dc2e644df9f85dc3bad81367c) is running on a machine (on the same network).
-4. In the `config.yaml`, change the value for `protopie_host` to the he IP address of the machine where ProtoPieConnect is running from.
-5. For ProtoPieConnect Embedded, you can assign a custom port and ip address when launching the binary by: ` ./<connect_bin> `.
+4. If you are using a secure mqtt broker, which requires a username and pwd for authentication, create a .env file and put the follwoing data in it.
+    ```bash
+    vim .env
 
-## Why is there a config file and what does it do?
+    # in .env
+    MQTT_USR='<USERNAME USED TO SECURE THE MOSQUITTO BROKER>'
+    MQTT_PWD='<PASSWORD USED TO SECURE THE MOSQUITTO BROKER>'
+    ```
+    > They are intentionally de-coupled from the `config.yaml` for security reasons. <br> 
+    [How to configure a mosquitto broker with username and password](https://gist.github.com/dattasaurabh82/c175aa913345cca64db55cb6983aebb9)?
+5. In the `config.yaml`, change the value for `protopie_host` to the he IP address of the machine where ProtoPieConnect is running from.
+6. For ProtoPieConnect Embedded, you can assign a custom port and ip address when launching the binary by:
+   ```bash
+   ./<connect_bin> --ip <custom ip> --port <custom port>
+   ./<connect_bin> --port 9981 # 9981 is the proto pie connect's default port used through out the system. 
+   ```
+
+## How does the translation from MQTT messages to ppConnect's socktio messages and vice versa happens?
 
 Explanation TBD
 
@@ -23,10 +37,10 @@ Explanation TBD
 
 - [x] Modularize the whole script set.
 - [x] Lint.
-- [ ] Apply MQTT security selection options for users.
 - [x] Generalize `mqtt -> socketio` translation layer's business logic through a config file.
 - [x] Generalize `socketio -> mqtt` translation layer's business logic through a config file.
 - [x] Handle unintended messages in sockeio client.
 - [x] Clean exit method of `'ctrl-c'` (Solve: kill threads when exiting in a clean fashion.)
-- [ ] If similar mqtt topics in config file, subscribe only once.
+- [x] If similar mqtt topics in config file, subscribe only once.
+- [ ] Apply MQTT security selection options for users.
 - [ ] Create tests.
