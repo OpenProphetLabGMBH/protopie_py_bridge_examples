@@ -42,5 +42,6 @@ Explanation TBD
 - [x] Handle unintended messages in sockeio client.
 - [x] Clean exit method of `'ctrl-c'` (Solve: kill threads when exiting in a clean fashion.)
 - [x] If similar mqtt topics in config file, subscribe only once.
-- [ ] Apply MQTT security selection options for users.
+- [x] Apply MQTT security selection options for users.
+- [ ] Apply MQTT ssl/tls support options for users.
 - [ ] Create tests.

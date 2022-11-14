@@ -27,6 +27,7 @@ mqtt_client = mqtt.Client(
     # protocol=MQTTv311,
     transport="tcp")
 
+
 def on_broker_connect(client, userdata, flags, rc):
     ''' Callback func that fires on connecting to a broker '''
     print('[MQTT] CONNECTED to BROKER !')
@@ -37,8 +38,7 @@ def on_broker_connect(client, userdata, flags, rc):
     unique_topics_list = (list(topics_list_set))
     for topic in unique_topics_list:
         mqtt_client.subscribe(topic)
-        print('[MQTT] SUBSCRIBED to TOPIC: \'' + topic + '\'')
-        
+        print('[MQTT] SUBSCRIBED to TOPIC: \'' + topic + '\'')   
 
 def on_broker_disconnect(client, userdata, rc):
     ''' Callback func that fires on getting disconnected from a broker '''
@@ -106,6 +106,12 @@ def on_message_from_broker(client, userdata, msg):
     protopie_value = None
     map_io(mqtt_topic, mqtt_payload, protopie_msg, protopie_value)
 
+# [WIP] secure mqtt based on if security is enabled or not
+from preload import MQTT_SECURED
+if MQTT_SECURED:
+    from preload import MQTT_USR_NAME
+    from preload import MQTT_PWD
+    mqtt_client.username_pw_set(MQTT_USR_NAME, MQTT_PWD)
 
 mqtt_client.on_connect = on_broker_connect
 mqtt_client.on_disconnect = on_broker_disconnect

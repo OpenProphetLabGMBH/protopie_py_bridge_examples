@@ -30,6 +30,10 @@ print("")
 
 verbose = True
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 try:
     file_stream = open('config.yaml', 'r')
 except IOError:
@@ -46,6 +50,13 @@ PROTO_PIE_CONNECT_HOST = configs['protopie_host']
 PROTO_PIE_CONNECT_PORT = configs['protopie_port']
 
 BRIDGE_NAME = configs['bridge_name']
+MQTT_SECURED = configs['mqtt_secured']
+MQTT_USR_NAME = None
+MQTT_PWD = None
+if MQTT_SECURED:
+    MQTT_USR_NAME = os.getenv('MQTT_USR_NAME')
+    MQTT_PWD = os.getenv('MQTT_PWD')
+
 MQTT_BROKER_HOST = configs['mqtt_broker_host']
 MQTT_BROKER_PORT = configs['mqtt_broker_port']
 

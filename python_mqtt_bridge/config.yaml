@@ -7,8 +7,11 @@ protopie_host: '10.6.1.23'
 protopie_port: 9981
 # MQTT configs
 bridge_name: 'python_mqtt_bridge'
-mqtt_broker_host: '127.0.0.1'
+mqtt_broker_host: '10.6.1.23'
 mqtt_broker_port: 1200
+
+mqtt_secured: true # if set true, the preload.py will look for credentials in a .env file. 
+# Remeber to set them accordingly then, in the .env file
 
 # NOTE: MQTT Security credentials
 # The mqtt user name and pwd are stored in a .env file and decoupled from here for security reasons
