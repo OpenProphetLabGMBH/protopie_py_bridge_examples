@@ -22,6 +22,9 @@
     ```
     > They are intentionally de-coupled from the `config.yaml` for security reasons. <br> 
     [How to configure a mosquitto broker with username and password](https://gist.github.com/dattasaurabh82/c175aa913345cca64db55cb6983aebb9)?
+
+    Also in the `config.yaml`, the, set `mqtt_secured: true`
+    > If you do not intend to use secure MQTT, set `mqtt_secured: false`
 5. In the `config.yaml`, change the value for `protopie_host` to the he IP address of the machine where ProtoPieConnect is running from.
 6. For ProtoPieConnect Embedded, you can assign a custom port and ip address when launching the binary by:
    ```bash
