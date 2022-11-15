@@ -15,7 +15,6 @@ io = socketio.Client()
 # io = socketio.AsyncClient()
 
 # --- SOCKETIO -> MQTT  --- #
-# import preload
 from preload import BRIDGE_NAME
 from preload import subs_msgids_list
 from preload import subs_values_list
