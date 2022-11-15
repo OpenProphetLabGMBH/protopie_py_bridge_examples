@@ -59,7 +59,7 @@ def map_io(_mqtt_topic, _mqtt_payload, _protopie_msg_id, _protopie_value):
                     # then, set the socketio emit value as the correcponding value for that payload,
                     # from the config file
                     _protopie_value = emmission_values_list[i]
-            # also, if the associated payload in the config file,
+            # Also, if the associated payload in the config file,
             # for that received topic is <str> 'payload',
             # it simply means, replay the received mqtt payload, as it is, as the socketio value.
             if subs_payloads_list[i] == 'payload' and emmission_values_list[i] == 'value':

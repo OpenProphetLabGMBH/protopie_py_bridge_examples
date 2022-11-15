@@ -100,7 +100,6 @@ else:
     exit()
 
 # --- SOCKETIO -> MQTT --- #
-# [WIP]
 subs_msgids_list = []
 subs_values_list = []
 pub_topics_list = []
