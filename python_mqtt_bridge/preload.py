@@ -43,7 +43,6 @@ except IOError:
     exit(0)
 
 configs = yaml.safe_load(file_stream)
-# print(configs['protopie_host'])
 
 # Assign the comm network connect creds
 PROTO_PIE_CONNECT_HOST = configs['protopie_host']
@@ -133,6 +132,3 @@ else:
     print('Patterns in [socketio -> mqtt] don\'t match!')
     print('Check the config file!')
     exit()
-
-
-
