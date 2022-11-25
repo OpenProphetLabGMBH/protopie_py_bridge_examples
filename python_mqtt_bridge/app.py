@@ -28,7 +28,7 @@ def main():
     ''' Main entry point of the app '''
     # [1] First start mqtt service
     mqtt_sys.start_client(MQTT_BROKER_HOST, MQTT_BROKER_PORT)
-    # [2] Then satrt the socketio service
+    # [2] Then start the socketio service
     sio_sys.start_client(PROTO_PIE_CONNECT_HOST, PROTO_PIE_CONNECT_PORT)
 
 
