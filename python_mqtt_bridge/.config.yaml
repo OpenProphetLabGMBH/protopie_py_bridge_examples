@@ -1,0 +1,56 @@
+# Linux Box on WiFI AP: xxxx
+# Linux Box IP: xxx.xx.xx.xxx
+# Both MQTT Broker and ProtoPieConnect-Embedded are running on the same machine i.e. the Linux Box
+
+# ProtoPieConnect configs
+protopie_host: '10.6.1.23'
+protopie_port: 9981
+# MQTT configs
+bridge_name: 'python_mqtt_bridge'
+mqtt_broker_host: '10.6.1.23'
+mqtt_broker_port: 1200
+
+mqtt_secured: true # if set true, the preload.py will look for credentials in a .env file. 
+# Remeber to set them accordingly then, in the .env file
+
+# NOTE: MQTT Security credentials
+# The mqtt user name and pwd are stored in a .env file and decoupled from here for security reasons
+# Note: How to configure a MQTT broker with security credentials:
+# 1. create a .env file (touch .env) in the same directory
+# 2. enter the following data in that .env file. 
+#    MQTT_USR='<username you used to configure your broker>'
+#    MQTT_PWD='<password you used to configure your broker>'
+# How to configure a mosquitto broker with username and password? 
+#   Answer: https://gist.github.com/dattasaurabh82/c175aa913345cca64db55cb6983aebb9
+
+
+# [TEST] The mapping of message flow, itself
+mapping:
+    # Mapping for when we have to translate socketio patterns to mqtt patterns, for different scenarios
+    socketio_to_mqtt:
+        msgid_to_topic: 
+            - ['ROOM', 'ROOM']              # [For IN-PUT socketio messageID "ROOM", keep the OUT-PUT mqtt topic as "ROOM"]
+            - ['BRIGHTNESS', 'BRIGHTNESS']  # [For IN-PUT socketio messageID "BRIGHTNESS", keep the OUT-PUT mqtt topic as "BRIGHTNESS"]        
+            - ['BUTTON', 'test_button']
+            - ['BUTTON', 'test_button']
+        value_to_payload:
+            - ['value', 'payload']          # [For all the IN-PUT socketio valuxe, for messageId 'ROOM', switch them, as it is, to OUT-PUT mqtt payload]
+            - ['value', 'payload']          # [For all the IN-PUT socketio value, for messageId 'BRIGHTNESS', switch them, as it is, to OUT-PUT mqtt payload]  
+            - ['on', '1']
+            - ['off', '0']
+    # Mapping for when we have to translate maqtt patterns to socketio patterns, for different scenarios
+    mqtt_to_socketio:
+        topic_to_msgid:
+            - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
+            - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
+            - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
+            - ['button', 'ROOM']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
+            - ['pot', 'BRIGHTNESS']         # [For IN-PUT mqtt topic 'pot', switch the OUT-PUT socketio messageID to 'BRIGHTNESS']
+            - ['key', 'key']                # [a specific MQTT topic is translated as it is to socket io messageId]
+        payload_to_value:
+            - ['1', 'Kitchen']              # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '1', switch OUT-PUT value to 'Kitchen']
+            - ['2', 'Living Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Living Room']
+            - ['3', 'Dining Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Dining Room']
+            - ['4', 'Bed Room']             # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Bed Room']
+            - ['payload', 'value']          # [For all the IN-PUT mqtt topic: 'pot', swirch all the mqtt payloads, as it is, to OUT-PUT socketio values]
+            - ['payload', 'value']          # [all the MQTT payloads are translated as it is to socketio vlues]
