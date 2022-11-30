@@ -9,6 +9,7 @@ __license__ = "APACHE 2.0"
 
 # All the main imports
 import socketio
+from time import sleep
 
 # -- [SOCKET IO SCHEME] -- #
 io = socketio.Client()
@@ -109,13 +110,20 @@ def on_message(data):
 def start_client(addr, port):
     ''' When called, will try to connect to the socket io server (in this case, ProtoPieConnect's server) '''
     protopie_connect_addr = 'http://' + addr + ':' + str(port)
-    print("")
-    print('[SOCKET_IO] Connecting to ProtoPieConnect server @ ', protopie_connect_addr, ' ...')
-    io.connect(protopie_connect_addr)
-    io.wait()
-    # sio_sys.io.wait()
-    # Needed this wait here or else clean exit doerns't happen 
-    # More here:https://github.com/miguelgrinberg/python-socketio/issues/301
+    while True:
+        try:
+            print('\n[SOCKET_IO] Trying to connect to ProtoPieConnect server @ ', protopie_connect_addr, ' ...')
+            io.connect(protopie_connect_addr)
+        except Exception:
+            print("[SOCKET_IO] Couldn't find sio server! Sure it's configured correctly and running?\n")
+            pass
+        else:
+            io.wait()
+            # sio_sys.io.wait()
+            # Needed this wait here or else clean exit doerns't happen 
+            # More here:https://github.com/miguelgrinberg/python-socketio/issues/301
+            break
+        sleep(2)
 def stop_client():
     ''' When called, will try to connect to the socket io server (in this case, ProtoPieConnect's server) '''
     if io is not None and io.connected:
