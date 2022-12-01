@@ -3,11 +3,11 @@
 # Both MQTT Broker and ProtoPieConnect-Embedded are running on the same machine i.e. the Linux Box
 
 # ProtoPieConnect configs
-protopie_host: '192.168.56.106'
+protopie_host: '192.168.56.151'
 protopie_port: 9981
 # MQTT configs
 bridge_name: 'python_mqtt_bridge'
-mqtt_broker_host: '192.168.56.106'
+mqtt_broker_host: '192.168.56.151'
 mqtt_broker_port: 1200
 
 mqtt_secured: true # if set true, the preload.py will look for credentials in a .env file. 
@@ -29,14 +29,22 @@ mapping:
     # Mapping for when we have to translate socketio patterns to mqtt patterns, for different scenarios
     socketio_to_mqtt:
         msgid_to_topic: 
-            - ['SLIDER', 'protopie/slider/value']   # [For IN-PUT socketio messageID "BRIGHTNESS", keep the OUT-PUT mqtt topic as "BRIGHTNESS"]        
+            - ['SWITCH', 'protopie/switch/state']
+            - ['SWITCH', 'protopie/switch/state'] 
+            - ['BRIGHTNESS', 'protopie/slider/value']           
         value_to_payload:
-            - ['value', 'payload']                  # [For all the IN-PUT socketio valuxe, for messageId 'ROOM', switch them, as it is, to OUT-PUT mqtt payload]
+            - ['ON', 'on'] 
+            - ['OFF', 'off']  
+            - ['value', 'payload']                
     # Mapping for when we have to translate maqtt patterns to socketio patterns, for different scenarios
     mqtt_to_socketio:
         topic_to_msgid:
-            - ['client/esp32_1_knob/button/state', 'BUTTON']            # [For IN-PUT mqtt topic 'button', switch the OUT-PUT messageID to 'ROOM']
-            - ['client/esp32_1_knob/encoder/value', 'BRIGHTNESS']       # [For IN-PUT mqtt topic 'pot', switch the OUT-PUT socketio messageID to 'BRIGHTNESS']
+            - ['client/esp32_1_knob/button/state', 'ENCODER_BTN']
+            - ['client/esp32_1_knob/button/state', 'ENCODER_BTN']          
+            - ['client/esp32_1_knob/encoder/value', 'ENCODER_ANGLE']
+            - ['client/esp32_1_knob/encoder/direction', 'DIRECTION']
         payload_to_value:
-            - ['pressed', 'on']             # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '1', switch OUT-PUT value to 'Kitchen']
-            - ['payload', 'value']          # [all the MQTT payloads are translated as it is to socketio vlues]
+            - ['pressed', 'ON']             
+            - ['released', 'OFF']
+            - ['payload', 'value']
+            - ['payload', 'value']          
