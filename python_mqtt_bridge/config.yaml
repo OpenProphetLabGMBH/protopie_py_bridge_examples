@@ -3,11 +3,11 @@
 # Both MQTT Broker and ProtoPieConnect-Embedded are running on the same machine i.e. the Linux Box
 
 # ProtoPieConnect configs
-protopie_host: '192.168.56.151'
+protopie_host: '192.168.0.209'
 protopie_port: 9981
 # MQTT configs
 bridge_name: 'python_mqtt_bridge'
-mqtt_broker_host: '192.168.56.151'
+mqtt_broker_host: '192.168.0.209'
 mqtt_broker_port: 1200
 
 mqtt_secured: true # if set true, the preload.py will look for credentials in a .env file. 
@@ -35,8 +35,8 @@ mapping:
         value_to_payload:
             - ['ON', 'on'] 
             - ['OFF', 'off']  
-            - ['value', 'payload']                
-    # Mapping for when we have to translate maqtt patterns to socketio patterns, for different scenarios
+            - ['raw_value', 'raw_payload']                
+    # Mapping for when we have to translate mqtt patterns to socketio patterns, for different scenarios
     mqtt_to_socketio:
         topic_to_msgid:
             - ['client/esp32_1_knob/button/state', 'ENCODER_BTN']
@@ -46,5 +46,5 @@ mapping:
         payload_to_value:
             - ['pressed', 'ON']             
             - ['released', 'OFF']
-            - ['payload', 'value']
-            - ['payload', 'value']          
+            - ['raw_payload', 'raw_value']
+            - ['raw_payload', 'raw_value']          

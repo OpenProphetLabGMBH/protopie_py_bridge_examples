@@ -34,8 +34,8 @@ mapping:
             - ['BUTTON', 'test_button']
             - ['BUTTON', 'test_button']
         value_to_payload:
-            - ['value', 'payload']          # [For all the IN-PUT socketio valuxe, for messageId 'ROOM', switch them, as it is, to OUT-PUT mqtt payload]
-            - ['value', 'payload']          # [For all the IN-PUT socketio value, for messageId 'BRIGHTNESS', switch them, as it is, to OUT-PUT mqtt payload]  
+            - ['raw_value', 'raw_payload']          # [For all the IN-PUT socketio valuxe, for messageId 'ROOM', switch them, as it is, to OUT-PUT mqtt payload]
+            - ['raw_value', 'raw_payload']          # [For all the IN-PUT socketio value, for messageId 'BRIGHTNESS', switch them, as it is, to OUT-PUT mqtt payload]  
             - ['on', '1']
             - ['off', '0']
     # Mapping for when we have to translate maqtt patterns to socketio patterns, for different scenarios
@@ -52,5 +52,5 @@ mapping:
             - ['2', 'Living Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Living Room']
             - ['3', 'Dining Room']          # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Dining Room']
             - ['4', 'Bed Room']             # [For IN-PUT mqtt topic: 'button' & IN-PUT mqtt payload '2', switch OUT-PUT value to 'Bed Room']
-            - ['payload', 'value']          # [For all the IN-PUT mqtt topic: 'pot', swirch all the mqtt payloads, as it is, to OUT-PUT socketio values]
-            - ['payload', 'value']          # [all the MQTT payloads are translated as it is to socketio vlues]
+            - ['raw_payload', 'raw_value']          # [For all the IN-PUT mqtt topic: 'pot', swirch all the mqtt payloads, as it is, to OUT-PUT socketio values]
+            - ['raw_payload', 'raw_value']          # [all the MQTT payloads are translated as it is to socketio vlues]

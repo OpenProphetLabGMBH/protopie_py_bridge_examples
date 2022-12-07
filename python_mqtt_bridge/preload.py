@@ -15,25 +15,55 @@ import time
 import yaml
 import json
 
-def clear():
-    ''' Func for clearing screen based on OS '''
-    # for windows
-    if os.name == 'nt':
-        _ = os.system('cls')
-    # for mac and linux(here, os.name is 'posix')
-    else:
-        _ = os.system('clear')
 
+tui_mode = False  # Variable that determines if the script runs in Text UI mode or just plain script mode
+verbose = False   # Enabling or disabling it toggle verbose output of data mapping from this file
+
+output_msg_buff = []
+output_msg = ""
+old_msg = ""
+
+# def clear():
+#     ''' Func for clearing screen based on OS '''
+#     # for windows
+#     if os.name == 'nt':
+#         _ = os.system('cls')
+#     # for mac and linux(here, os.name is 'posix')
+#     else:
+#         _ = os.system('clear')
 # Clear the screen
-clear()
-print("")
+# clear()
+# print('\n')
 
-verbose = True
 
+import argparse
+arg_parser = argparse.ArgumentParser(description='Start the script in \'pure command line mode\' or in \'TUI mode\'')
+arg_parser.add_argument("-s", "--script",
+                        help="launch in script mode",
+                        action="store_true",
+                        default=True)
+arg_parser.add_argument("-u", "--tui",
+                        help="launch in text ui mode",
+                        action="store_true")
+arg_parser.add_argument("-m", "--showmap",
+                        help="during launch, first show the logical mapping of data between MQTT & SOCKETIO",
+                        action="store_true")
+arg_parser.add_argument("-a", "--auto",
+                        help="doesn;t ask for prompt for launching the script",
+                        action="store_true")
+args = arg_parser.parse_args()
+
+if args.tui:
+    tui_mode = True
+    args.script = False
+else:
+    tui_mode = False
+if args.showmap:
+    verbose = True
+
+# --- Loading data from config --- #
 from dotenv import load_dotenv
 load_dotenv()
-
-
 try:
     file_stream = open('config.yaml', 'r')
 except IOError:
@@ -44,7 +74,7 @@ except IOError:
 
 configs = yaml.safe_load(file_stream)
 
-# Assign the comm network connect creds
+# Assign the comm network connect creds for protopie connect and mqtt
 PROTO_PIE_CONNECT_HOST = configs['protopie_host']
 PROTO_PIE_CONNECT_PORT = configs['protopie_port']
 
@@ -85,7 +115,7 @@ for payload_to_value in PAYLOADS_TO_VALUES_LIST:
     emmission_values_list.append(payload_to_value[1])
 
 # Check lengths to ensure data pattern
-if (len(subs_topics_list) == len(subs_payloads_list) and len(emmission_msgids_list) == len(emmission_values_list)):
+if (len(subs_topics_list) == len(subs_payloads_list) or len(emmission_msgids_list) == len(emmission_values_list)):
     if verbose:
         print('Mapping for MQTT -> socketio:')
         print('-----------------------------')
@@ -97,7 +127,33 @@ if (len(subs_topics_list) == len(subs_payloads_list) and len(emmission_msgids_li
 else:
     print('Patterns in [socketio->mqtt -> socketio] don\'t match!')
     print('Check the config file!')
-    exit()
+    exit(0)
+
+
+'''
+For npycurses TUI, we want to visualzie the incoming mqtt messages,
+mapped to as the outgoing protopie connect's socketio messages.
+Thus mapping's arrangement
+'''
+subs_mqtt_msgs_list = []
+emmission_sio_msgs_list = []
+
+for i in range(0, len(subs_topics_list)):
+    pl = ''
+    if subs_payloads_list[i] == 'raw_payload':
+        pl = '\'' + subs_payloads_list[i].upper() + '\''
+    else:
+        pl = subs_payloads_list[i]
+    subs_mqtt_msgs_list.append(subs_topics_list[i] + ':' + pl)
+
+for i in range(0, len(emmission_msgids_list)):
+    msg = ''
+    if emmission_values_list[i] == 'raw_value':
+        msg = '\'' + emmission_values_list[i].upper() + '\''
+    else:
+        msg = emmission_values_list[i]
+    emmission_sio_msgs_list.append(emmission_msgids_list[i] + ':' + msg)
+
 
 # --- SOCKETIO -> MQTT --- #
 subs_msgids_list = []
@@ -118,7 +174,7 @@ for value_to_payload in VALUES_TO_PAYLOADS_LIST:
     pub_payloads_list.append(value_to_payload[1])
 
 # Check lengths to ensure data pattern
-if len(subs_msgids_list) == len(subs_values_list) and len(pub_topics_list) == len(pub_payloads_list):
+if len(subs_msgids_list) == len(subs_values_list) or len(pub_topics_list) == len(pub_payloads_list):
     if verbose:
         print('Mapping for socketio -> MQTT:')
         print('-----------------------------')
@@ -130,4 +186,70 @@ if len(subs_msgids_list) == len(subs_values_list) and len(pub_topics_list) == le
 else:
     print('Patterns in [socketio -> mqtt] don\'t match!')
     print('Check the config file!')
-    exit()
+    exit(0)
+
+'''
+For npycurses TUI, we want to visualzie the data mapping
+between incoming protopie connect socket io messages to
+outgoing mqtt messages.
+Thus mapping's arrangement
+'''
+subs_sio_msgs_list = []
+pubs_mqtt_msgs_list = []
+for i in range(0, len(subs_msgids_list)):
+    msg_val = ''
+    if subs_values_list[i] == 'raw_value':
+        msg_val = '\'' + subs_values_list[i].upper() + '\''
+    else:
+        msg_val = subs_values_list[i]
+    subs_sio_msgs_list.append(subs_msgids_list[i] + ':' + msg_val)
+for i in range(0, len(pub_topics_list)):
+    payload_val = ''
+    if pub_payloads_list[i] == 'raw_payload':
+        payload_val = '\'' + pub_payloads_list[i].upper() + '\''
+    else:
+        payload_val = pub_payloads_list[i]
+    pubs_mqtt_msgs_list.append(pub_topics_list[i] + ':' + payload_val)
+
+
+#  --- Ask before moving forward --- #
+def ask_user_if_to_proceed(_question):
+    while True:
+        proceed = str(input(_question + ' [y/N]:')).lower().strip()
+        if proceed[:1] == 'y':
+            print('\nProceeding ...')
+            break
+        elif proceed == 'n':
+            # don't proceed but exit
+            print('\nExiting ...')
+            print('\n')
+            exit(0)
+        else:
+            print('\nInvalid input.\nPlease try again with \'y/Y\' or \'n/N\'\n')
+
+
+if tui_mode:
+    print('-----------------------------------------------------')
+    print('Going to launch in \'Text User Interface\' [TUI] Mode')
+    print('-----------------------------------------------------')
+else:
+    print('---------------------------------------------')
+    print('Going to launch in regular simple script Mode')
+    print('---------------------------------------------')
+
+
+if verbose and not args.auto:
+    '''
+    If we have displayed in command line the data mapping,
+    we should give people some time to read that and then
+    ask them to propmt the proceeding
+    '''
+    ask_user_if_to_proceed('\nDo you want to Proceed')
+
+if not verbose and not args.auto:
+    '''
+    If teh user didn't enable to see the data mapping and
+    didn't pass in teh argument to auto proceed, prompt the user
+    for proceeding
+    '''
+    ask_user_if_to_proceed('\nDo you want to Proceed')
