@@ -20,19 +20,16 @@ output_msg = ""
 old_msg = ""
 
 
-
 # The config file to be used when not passed as an argument, sits in the same directory of the app.py
 default_config_file = os.path.dirname(os.path.abspath(__file__)) + '/config.yaml'
 
 arg_parser = argparse.ArgumentParser(description='Start the script in \'pure command line mode\' or in \'TUI mode\'')
 arg_parser.add_argument("-c", "--config",
-                        # type=argparse.FileType('r'),
-                        # nargs='+',
                         type=argparse.FileType('r', encoding='utf-8'),
-                        # type=str,
                         help="path for the config file",
                         default=default_config_file,
-                        required=False
+                        required=False,
+                        metavar=''
                         )
 arg_parser.add_argument("-s", "--script",
                         help="launch in script mode",
@@ -51,7 +48,7 @@ args = arg_parser.parse_args()
 
 # -- The config file itself, from cmd-line arguments -- #
 conf_file = args.config.name
-print('\n' + 'USED CONFIG FILE: ' + args.config.name + '\n')
+print('\n' + 'USED CONFIG FILE: ' + conf_file + '\n')
 
 if args.tui:
     tui_mode = True
