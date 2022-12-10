@@ -47,4 +47,6 @@ Explanation TBD
 - [x] If similar mqtt topics in config file, subscribe only once.
 - [x] Apply MQTT security selection options for users.
 - [x] Add a TUI mode.
+- [x] Add arg to supply a config file path.
+- [x] Method to run the app/script from being in any dir (resolve default config file dependency).
 - [ ] Apply MQTT ssl/tls support options for users.
