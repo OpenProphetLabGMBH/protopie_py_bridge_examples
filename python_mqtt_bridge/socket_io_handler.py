@@ -6,6 +6,9 @@ __author__ = "Saurabh Datta"
 __version__ = "0.1.0"
 __license__ = "APACHE 2.0"
 
+# import os
+# import sys
+# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # All the main imports
 import socketio

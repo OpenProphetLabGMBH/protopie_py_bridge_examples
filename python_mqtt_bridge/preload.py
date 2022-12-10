@@ -8,13 +8,9 @@ __version__ = "0.1.0"
 __license__ = "APACHE 2.0"
 
 # All the main imports
-import fileinput
-import sys
 import os
-import time
 import yaml
-import json
-
+import argparse
 
 tui_mode = False  # Variable that determines if the script runs in Text UI mode or just plain script mode
 verbose = False   # Enabling or disabling it toggle verbose output of data mapping from this file
@@ -23,21 +19,21 @@ output_msg_buff = []
 output_msg = ""
 old_msg = ""
 
-# def clear():
-#     ''' Func for clearing screen based on OS '''
-#     # for windows
-#     if os.name == 'nt':
-#         _ = os.system('cls')
-#     # for mac and linux(here, os.name is 'posix')
-#     else:
-#         _ = os.system('clear')
-# Clear the screen
-# clear()
-# print('\n')
 
 
-import argparse
+# The config file to be used when not passed as an argument, sits in the same directory of the app.py
+default_config_file = os.path.dirname(os.path.abspath(__file__)) + '/config.yaml'
+
 arg_parser = argparse.ArgumentParser(description='Start the script in \'pure command line mode\' or in \'TUI mode\'')
+arg_parser.add_argument("-c", "--config",
+                        # type=argparse.FileType('r'),
+                        # nargs='+',
+                        type=argparse.FileType('r', encoding='utf-8'),
+                        # type=str,
+                        help="path for the config file",
+                        default=default_config_file,
+                        required=False
+                        )
 arg_parser.add_argument("-s", "--script",
                         help="launch in script mode",
                         action="store_true",
@@ -53,6 +49,10 @@ arg_parser.add_argument("-a", "--auto",
                         action="store_true")
 args = arg_parser.parse_args()
 
+# -- The config file itself, from cmd-line arguments -- #
+conf_file = args.config.name
+print('\n' + 'USED CONFIG FILE: ' + args.config.name + '\n')
+
 if args.tui:
     tui_mode = True
     args.script = False
@@ -63,13 +63,15 @@ if args.showmap:
 
 # --- Loading data from config --- #
 from dotenv import load_dotenv
+# Loads mqtt credentials if any
 load_dotenv()
+
 try:
-    file_stream = open('config.yaml', 'r')
+    file_stream = open(conf_file, 'r')
 except IOError:
     file_stream = None
     print("Note: config file doesn't exists")
-    print('Make sure you have \'config.yaml\' in the same directory as teh scripts!')
+    print('Make sure you have defined the \'config.yaml\'!')
     exit(0)
 
 configs = yaml.safe_load(file_stream)

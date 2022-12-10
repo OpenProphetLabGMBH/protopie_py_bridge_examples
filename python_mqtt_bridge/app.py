@@ -9,13 +9,11 @@ __license__ = "APACHE 2.0"
 
 # --- FEW MAIN LIB IMPORTS -- #
 import curses
-import sys
 import npyscreen
-import os
 import threading
 
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # -- LOCAL MODULE IMPORTS -- #
 from preload import PROTO_PIE_CONNECT_HOST

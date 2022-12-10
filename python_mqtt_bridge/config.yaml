@@ -47,4 +47,4 @@ mapping:
             - ['pressed', 'ON']             
             - ['released', 'OFF']
             - ['raw_payload', 'raw_value']
-            - ['raw_payload', 'raw_value']          
+            - ['raw_payload', 'raw_value']
