@@ -63,16 +63,6 @@ etc.
  >   source protopie_py_bridge_examples/py_pie_mqtt_bridge/bin/activate
  >   ```
 
-Now, the script can run in 2 modes:
-
-1. **Script Mode.**
-
-<img src="assets/script_mode_scrnshot.png" width="640">
-
-2. **Text User Interface (TUI) Mode.**
-
-<img src="assets/tui_mode_scrnshot.png" width="640">
-
 ```shell
 $ python3 app.py --help
 usage: app.py [-h] [-c] [-s] [-u] [-m] [-a]
@@ -87,6 +77,20 @@ options:
   -m, --showmap   during launch, first show the logical mapping of data between MQTT & SOCKETIO
   -a, --auto      doesn't ask for prompt to proceed after launching the script
 ```
+
+> By default it would launch in script mode, use the config.yaml as the config file from the scripts's directory and will ask for a prompt to launch.
+
+Now, the script can run in 2 modes:
+
+1. **Script Mode.**
+
+<img src="assets/script_mode_scrnshot.png" width="640">
+
+2. **Text User Interface (TUI) Mode.**
+
+<img src="assets/tui_mode_scrnshot.png" width="640">
+
+
 
 ---
 
