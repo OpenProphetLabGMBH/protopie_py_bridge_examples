@@ -42,7 +42,7 @@ arg_parser.add_argument("-m", "--showmap",
                         help="during launch, first show the logical mapping of data between MQTT & SOCKETIO",
                         action="store_true")
 arg_parser.add_argument("-a", "--auto",
-                        help="doesn;t ask for prompt for launching the script",
+                        help="doesn't ask for prompt for launching the script",
                         action="store_true")
 args = arg_parser.parse_args()
 
