@@ -35,8 +35,9 @@
    ./<connect_bin> --port 9981 # 9981 is the proto pie connect's default port used through out the system. 
    ```
 
-## How does the translation from MQTT messages to ppConnect's socktio messages and vice versa happens?
+## How are the relations between MQTT messages and ppConnect's socktio messages defined?
 
+Without touching the code/script.
 > Explanation TBD
 
 ## Running the script/application
