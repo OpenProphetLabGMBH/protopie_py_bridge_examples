@@ -86,11 +86,45 @@ Now, the script can run in 2 modes:
 
 <img src="assets/script_mode_scrnshot.png" width="640">
 
+```bash
+# Explicitely telling to launch in script mode, using default config file from the script directory
+python3 app.py --script
+python3 app.py -s # short-hand arg
+
+# Explicitely telling to launch in script mode, using custom config file PATH
+python3 app.py --script --config <path_to_custom_config.yaml>
+python3 app.py -s -c <path_to_custom_config.yaml> # short-hand arg
+
+# Explicitely telling to launch in script mode and show the relationship between MQTT messages and the socketio messages (drawn from default config file)
+python3 app.py --script --showmap
+python3 app.py -s -m # short-hand arg
+
+# Explicitely telling to launch in script mode and show the relationship between MQTT messages and the socketio messages (drawn from supplied, custom config file PATH), but do not ask for prompt (which is usually there for giving the user time to look at the relationship map)
+python3 app.py --script --config <path_to_custom_config.yaml> --auto
+python3 app.py -s -c <path_to_custom_config.yaml> -a
+```
+
 2. **Text User Interface (TUI) Mode.**
 
 <img src="assets/tui_mode_scrnshot.png" width="640">
 
+```bash
+# Explicitely telling to launch in TUI mode, using default config file from the script directory
+python3 app.py --tui
+python3 app.py -u # short-hand arg
 
+# Explicitely telling to launch in TUI mode, using custom config file PATH
+python3 app.py --tui --config <path_to_custom_config.yaml>
+python3 app.py -u -c <path_to_custom_config.yaml> # short-hand arg
+
+# Explicitely telling to launch in TUI mode and show the relationship between MQTT messages and the socketio messages (drawn from default config file)
+python3 app.py --tui --showmap
+python3 app.py -u -m # short-hand arg
+
+# Explicitely telling to launch in TUI mode and show the relationship between MQTT messages and the socketio messages (drawn from supplied, custom config file PATH), but do not ask for prompt (which is usually there for giving the user time to look at the relationship map)
+python3 app.py --tui --config <path_to_custom_config.yaml> --auto
+python3 app.py -u -c <path_to_custom_config.yaml> -a
+```
 
 ---
 
