@@ -46,10 +46,6 @@ arg_parser.add_argument("-a", "--auto",
                         action="store_true")
 args = arg_parser.parse_args()
 
-# -- The config file itself, from cmd-line arguments -- #
-conf_file = args.config.name
-print('\n' + 'USED CONFIG FILE: ' + conf_file + '\n')
-
 if args.tui:
     tui_mode = True
     args.script = False
@@ -63,6 +59,9 @@ from dotenv import load_dotenv
 # Loads mqtt credentials if any
 load_dotenv()
 
+# -- The config file itself, from cmd-line arguments or default -- #
+conf_file = args.config.name
+print('\n' + 'USED CONFIG FILE: ' + conf_file + '\n')
 try:
     file_stream = open(conf_file, 'r')
 except IOError:
