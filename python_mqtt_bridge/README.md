@@ -2,7 +2,7 @@
 
 ## Why?
 
-1. You might be working with a system where you need to translate between mqtt messages and protopie socketio messages, especially to work with a hardware and software based complex systems where there are many prototypes and where rest of the architechture speaks **mqtt** and not socketio. ([benefits of using mqtt](https://www.neovasolutions.com/2020/07/03/what-is-mqtt-protocol-and-how-does-it-work/)).
+1. You might be working with a system where you need to translate between mqtt messages and protopie socketio messages, especially to work with a/multiple hardware and software based systems where there are many prototypes and where rest of the architechture speaks **mqtt** and not socketio. ([benefits of using mqtt](https://www.neovasolutions.com/2020/07/03/what-is-mqtt-protocol-and-how-does-it-work/)).
 2. **ProtoPieConnect Desktop** doesn't have a already pre-existing choice to choose between mqtt or socketio and communication protocol.
 3. **ProtoPieConnect Embedded** can be launched with `--mqtt` flag set to `true` but the port is default port `1883`.
 4. One might want to change the default mqtt port, according to their needs, and according to the rest of the system and also apply other mqtt customization attributes.
@@ -12,7 +12,7 @@
 1. Make sure you have a mqtt broker running on a machine (e.g.: make sure you have [mosquitto](https://mosquitto.org/download/) installed and then run: `mosquitto -v -p <a port>`)
 2. In the `config.yaml`, change the value for `mqtt_broker_host` and `mqtt_broker_port` to the IP address of the machine and the port you are using, respectively.
 3. Make sure that [ProtoPieConnect Desktop or ProtoPieConnect Embedded](https://protopie.notion.site/Desktop-vs-Embedded-6f1de40dc2e644df9f85dc3bad81367c) is running on a machine (on the same network).
-4. If you are using a secure mqtt broker, which requires a username and pwd for authentication, create a .env file and put the follwoing data in it.
+4. If you are using a secure mqtt broker, which requires a username and pwd for authentication, create a .env file and put the following data in it.
     ```bash
     vim .env
 
@@ -46,5 +46,5 @@ Explanation TBD
 - [x] Clean exit method of `'ctrl-c'` (Solve: kill threads when exiting in a clean fashion.)
 - [x] If similar mqtt topics in config file, subscribe only once.
 - [x] Apply MQTT security selection options for users.
+- [x] Add a TUI mode.
 - [ ] Apply MQTT ssl/tls support options for users.
-- [ ] Create tests.
