@@ -37,7 +37,7 @@
 
 ## How does the translation from MQTT messages to ppConnect's socktio messages and vice versa happens?
 
-Explanation TBD
+> Explanation TBD
 
 ## Running the script/application
 
@@ -65,9 +65,13 @@ etc.
 
 Now, the script can run in 2 modes:
 
-1. **script mode.**
+1. **Script Mode.**
 
-2. **Text User Interface (TUI) mode.**
+<img src="assets/script_mode_scrnshot.png" width="640">
+
+2. **Text User Interface (TUI) Mode.**
+
+<img src="assets/tui_mode_scrnshot.png" width="640">
 
 ---
 
