@@ -78,7 +78,7 @@ options:
   -a, --auto      doesn't ask for prompt to proceed after launching the script
 ```
 
-> By default it would launch in script mode, use the config.yaml as the config file from the scripts's directory and will ask for a prompt to launch.
+> If only `python3 app.py` is issued, then by default, it would launch in script mode, use the config.yaml as the config file from the scripts's directory and will ask for a prompt to launch.
 
 Now, the script can run in 2 modes:
 
