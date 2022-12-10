@@ -85,7 +85,7 @@ options:
   -s, --script    launch in script mode
   -u, --tui       launch in text ui mode
   -m, --showmap   during launch, first show the logical mapping of data between MQTT & SOCKETIO
-  -a, --auto      doesn't ask for prompt for launching the script
+  -a, --auto      doesn't ask for prompt to proceed after launching the script
 ```
 
 ---
