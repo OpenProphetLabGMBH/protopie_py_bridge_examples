@@ -1,5 +1,6 @@
 # README
 
+
 ## Why?
 
 1. You might be working with a system where you need to translate between mqtt messages and protopie socketio messages, especially to work with a/multiple hardware and software based systems where there are many prototypes and where rest of the architechture speaks **mqtt** and not socketio. ([benefits of using mqtt](https://www.neovasolutions.com/2020/07/03/what-is-mqtt-protocol-and-how-does-it-work/)).
@@ -39,6 +40,8 @@
 
 Without touching the code/script.
 > Explanation TBD
+
+---
 
 ## Running the script/application
 
