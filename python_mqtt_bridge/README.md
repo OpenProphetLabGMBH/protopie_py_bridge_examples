@@ -13,6 +13,7 @@
 2. In the `config.yaml`, change the value for `mqtt_broker_host` and `mqtt_broker_port` to the IP address of the machine and the port you are using, respectively.
 3. Make sure that [ProtoPieConnect Desktop or ProtoPieConnect Embedded](https://protopie.notion.site/Desktop-vs-Embedded-6f1de40dc2e644df9f85dc3bad81367c) is running on a machine (on the same network).
 4. If you are using a secure mqtt broker, which requires a username and pwd for authentication, create a .env file and put the following data in it.
+
     ```bash
     vim .env
 
@@ -20,6 +21,7 @@
     MQTT_USR='<USERNAME USED TO SECURE THE MOSQUITTO BROKER>'
     MQTT_PWD='<PASSWORD USED TO SECURE THE MOSQUITTO BROKER>'
     ```
+
     > They are intentionally de-coupled from the `config.yaml` for security reasons. <br> 
     [How to configure a mosquitto broker with username and password](https://gist.github.com/dattasaurabh82/c175aa913345cca64db55cb6983aebb9)?
 
@@ -27,7 +29,8 @@
     > If you do not intend to use secure MQTT, set `mqtt_secured: false`
 5. In the `config.yaml`, change the value for `protopie_host` to the he IP address of the machine where ProtoPieConnect is running from.
 6. For ProtoPieConnect Embedded, you can assign a custom port and ip address when launching the binary by:
-   ```bash
+
+    ```bash
    ./<connect_bin> --ip <custom ip> --port <custom port>
    ./<connect_bin> --port 9981 # 9981 is the proto pie connect's default port used through out the system. 
    ```
@@ -36,7 +39,28 @@
 
 Explanation TBD
 
-## TODO:
+## Running the script/application
+
+Activate the virtual environment first:
+
+1. For bash: `source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate`
+2. For fish: `source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate.fish`
+
+etc.
+
+If you have just git cloned it and your shell is default bash, then by default, the venv activation cmd would be:
+
+`source protopie_py_bridge_examples/py_pie_mqtt_bridge/bin/activate`
+
+Now, the script can run in 2 modes:
+
+1. **script mode.**
+
+2. **Text User Interface (TUI) mode.**
+
+---
+
+## TODO
 
 - [x] Modularize the whole script set.
 - [x] Lint.
