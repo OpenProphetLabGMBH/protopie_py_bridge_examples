@@ -43,8 +43,17 @@ Explanation TBD
 
 Activate the virtual environment first:
 
-1. For bash: `source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate`
-2. For fish: `source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate.fish`
+1. For bash:
+
+   ```bash
+   source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate
+   ```
+
+2. For fish:
+
+    ```bash
+    source <Cloned Project DIR/py_pie_mqtt_bridge/bin/activate.fish
+    ```
 
 etc.
 
