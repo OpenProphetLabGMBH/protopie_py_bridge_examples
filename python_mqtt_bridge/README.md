@@ -57,9 +57,11 @@ Activate the virtual environment first:
 
 etc.
 
-If you have just git cloned it and your shell is default bash, then by default, the venv activation cmd would be:
-
-`source protopie_py_bridge_examples/py_pie_mqtt_bridge/bin/activate`
+> If you have just git cloned it and your shell is default bash, then by default, the venv activation cmd would be:
+>
+ >   ```bash
+ >   source protopie_py_bridge_examples/py_pie_mqtt_bridge/bin/activate
+ >   ```
 
 Now, the script can run in 2 modes:
 
