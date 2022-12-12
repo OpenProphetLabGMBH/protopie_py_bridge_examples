@@ -53,65 +53,92 @@ def on_disconnect():
 
 def map_io(_protopie_msg_id, _protopie_value, _mqtt_topic, _mqtt_payload):
     ''' A function that directs the inputs, based on the config file, to the output pattern '''
-    # Do a check if the received message is in our config list
-    if _protopie_msg_id in subs_msgids_list and _protopie_value in subs_values_list:
-        # Relay from PrototPieConnect's socketio server -> MQTT broker a/c to business logic
-        # MAPPINGS (BUSINESS LOGIC):
-        # For all the socketio messageIds listed in the config file
-        for i in range(len(subs_msgids_list)):
-            #  if one of the messageIds matches with our input sockeio messageIds
-            if subs_msgids_list[i] == _protopie_msg_id:
-                # then, pick and set the respective mqtt topic value as the one for mqtt publish method
-                _mqtt_topic = pub_topics_list[i]
-                # if the associated value in the config file is not a <str> 'value' of below type
-                if subs_values_list[i] != 'raw_value' and pub_payloads_list[i] != 'raw_payload':
-                    # And if, the recieved socketio value is in the config file (expected payload)
-                    if subs_values_list[i] == _protopie_value:
-                        # then, set the mqtt pub msg as the correcponding value for that socketio value,
-                        # from the config file
-                        _mqtt_payload = pub_payloads_list[i]
-                        pass
-                # also, if the associated socketio value in the config file,
-                # for that received messageid is of <str> 'value' of below type,
-                # it simply means, replay the received socketio value, as it is, as the mqtt payload.
-                if subs_values_list[i] == 'raw_value' and pub_payloads_list[i] == 'raw_payload':
-                    _mqtt_payload = _protopie_value
-
-        if _mqtt_topic is not None and mqtt_client is not None:
-            if mqtt_client.is_connected():
-                if not tui_mode:
-                    print(
-                        '[MQTT] Relaying topic:\'' + _mqtt_topic +
-                        '\', message:\'' + _mqtt_payload + '\' to MQTT broker')
-                else:
-                    pl.output_msg_buff = ['[MQTT] Relaying topic:\'' + _mqtt_topic +
-                                          '\', message:\'' + _mqtt_payload + '\' to MQTT broker']
-                mqtt_client.publish(_mqtt_topic, _mqtt_payload)
-            else:
-                if not tui_mode:
-                    print('\n** Not connected to MQTT broker ...')
-                    print('Hence not publishing ...')
-                    print('But topic:' + _mqtt_topic + ' payload:' + _mqtt_payload, '\n')
-                else:
-                    pl.output_msg_buff = ['', '** Not connected to MQTT broker, so not publishing',
-                                          'But topic:' + _mqtt_topic + ' payload:' + _mqtt_payload, '']
-        else:
-            if not tui_mode:
-                print('\n** ALERT: One of the required value for mqtt publishing is None')
-                print('Topic: ' + _mqtt_topic + ', payload: ' + _mqtt_payload)
-                print('Not publishing ...\n')
-            else:
-                pl.output_msg_buff = ['', '** ALERT: One of the required value for mqtt publishing is None',
-                                      'Topic: ' + str(_mqtt_topic) + ', payload: ' + str(_mqtt_payload),
-                                      'Not publishing ...']
-                # return
-    else:
+    # First check, before wastiung time in mapping computation,
+    # if our mqtt client exists and is connected to broker,
+    # if not, then no need to be even do the mapping computation
+    if mqtt_client is None:
+        #  client doesn't exist
         if not tui_mode:
-            print('\n[SOCKET_IO] Either the received msgID or it\'s value doesn\'t exists in our config')
+            print('\n[SOCKET_IO] ** MQTT client doesn\'t exist ...')
+            print('[SOCKET_IO] Hence not proceeding with SIO->MQTT mapping ...')
+        else:
+            pl.output_msg_buff = ['', '[SOCKET_IO] ** MQTT client doesn\'t exist ...',
+                                  '[SOCKET_IO] Hence not proceeding with SIO->MQTT mapping!']
+        return
+    if not mqtt_client.is_connected():
+        # clinet not connected
+        if not tui_mode:
+            print('\n[SOCKET_IO] ** Not connected to MQTT broker ...')
+            print('[SOCKET_IO] Hence not proceeding with SIO->MQTT mapping ...')
+        else:
+            pl.output_msg_buff = ['', '[SOCKET_IO] ** Not connected to MQTT broker ...',
+                                  '[SOCKET_IO] Hence not proceeding with SIO->MQTT mapping!']
+        return
+
+    # If message ID received doesn't exist in our config file, stop and exit the func
+    if _protopie_msg_id not in subs_msgids_list:
+        if not tui_mode:
+            print('\n[SOCKET_IO] Received msgID doesn\'t exists in our config')
             print('[SOCKET_IO] Hence not publishing anything ...\n')
         else:
             pl.output_msg_buff = ['', '[SOCKET_IO] msgID or it\'s value doesn\'t exists in config',
-                                  'Hence not publishing anything ...', '']
+                                  '[SOCKET_IO] Hence can\'t proceed with SIO->MQTT mapping!', '']
+        return
+
+
+
+    # Get the idx for the received messageID as now this is confirmed
+    # to be in our list of messageIDs we want to listen to
+    msg_id_idx = subs_msgids_list.index(_protopie_msg_id)
+    # Set the respective mqtt publishing topic, corresponding to that messageID
+    _mqtt_topic = pub_topics_list[msg_id_idx]
+
+    # If message's value received doesn't exist in our config file and at that idx and
+    # it is not equql to <str> 'value', stop and exit the func
+    if _protopie_value not in subs_values_list and subs_values_list[msg_id_idx] != 'raw_value':
+        if not tui_mode:
+            print('\n[SOCKET_IO] Received msg value doesn\'t exists in our config.')
+            print('[SOCKET_IO] Neither it has been set to be transmitted as it is.')
+            print('[SOCKET_IO] Hence can\'t proceed with SIO->MQTT mapping!\n')
+        else:
+            pl.output_msg_buff = ['', '[SOCKET_IO] value doesn\'t exists in config',
+                                  '[SOCKET_IO] Neither it has been set to be transmitted as it is.',
+                                  '[SOCKET_IO] Hence can\'t proceed with SIO->MQTT mapping!', '']
+        return
+    elif _protopie_value in subs_values_list and subs_values_list[msg_id_idx] != 'raw_value':
+        # update the msg idx.
+        msg_id_idx = subs_values_list.index(_protopie_value)
+   
+    if pub_payloads_list[msg_id_idx] == 'raw_payload':
+        _mqtt_payload = _protopie_value
+    else:
+        _mqtt_payload = pub_payloads_list[msg_id_idx]
+
+    # if mqtt topic didn't get assigned, can't publish
+    if _mqtt_topic is None:
+        if not tui_mode:
+            print('[MQTT] Topic wasn\'t successfully assigned!')
+            print('[MQTT] Hence not proceeding with publishing MQTT msg!')
+        else:
+            print()
+        return
+
+    # if mqtt payload didn't get assigned, can't publish
+    if _mqtt_payload is None:
+        if not tui_mode:
+            print('[MQTT] Payload wasn\'t successfully assigned!')
+            print('[MQTT] Hence not proceeding with publishing MQTT msg!')
+        else:
+            print()
+        return
+
+    if not tui_mode:
+        print('[MQTT] Relaying topic:\'' + _mqtt_topic +
+              '\', message:\'' + _mqtt_payload + '\' to MQTT broker')
+    else:
+        pl.output_msg_buff = ['[MQTT] Relaying topic:\'' + _mqtt_topic +
+                              '\', message:\'' + _mqtt_payload + '\' to MQTT broker']
+    mqtt_client.publish(_mqtt_topic, _mqtt_payload)
 
 
 @io.on('ppMessage')
@@ -121,11 +148,21 @@ def on_message(data):
     protopie_value = data['value'] if 'value' in data else None
     # [NOTE]: Both the messageId and the value received from ProtoPieConnect are apparently, ALWAYS of type <str>
     if not tui_mode:
-        print('[SOCKET_IO] Received a Message from ProtoPieConnect server:' + protopie_msg_id + ':' + protopie_value)
+        print('[SOCKET_IO] Received a Message from ProtoPieConnect server: ' + protopie_msg_id + ':' + protopie_value)
     else:
         # [BUG] [Not getting printed don't know why]
         pl.output_msg_buff = ['SOCKET_IO] Received a Message from ProtoPieConnect server:' +
                               protopie_msg_id + ':' + protopie_value]
+    if protopie_value == 'raw_value':
+        # Can't use this as a value in Protopie Studio to send signal
+        # as it is a revserved for config file's relay conventions
+        if not tui_mode:
+            print('[SOCKET_IO] received message: \'raw_value\' can\'t be used as it is reserved')
+        else:
+            # [BUG] [Not getting printed don't know why]
+            pl.output_msg_buff = ['SOCKET_IO] \'raw_value\' can\'t be used as it is reserved']
+        return
+
     mqtt_topic = None
     mqtt_payload = None
     map_io(protopie_msg_id, protopie_value, mqtt_topic, mqtt_payload)

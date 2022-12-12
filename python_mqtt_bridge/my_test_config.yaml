@@ -8,9 +8,9 @@ protopie_port: 9981
 # MQTT configs
 bridge_name: 'python_mqtt_bridge'
 mqtt_broker_host: '192.168.0.209'
-mqtt_broker_port: 1883
+mqtt_broker_port: 1200
 
-mqtt_secured: false # if set true, the preload.py will look for credentials in a .env file. 
+mqtt_secured: true # if set true, the preload.py will look for credentials in a .env file. 
 # Remeber to set them accordingly then, in the .env file
 
 # NOTE: MQTT Security credentials
@@ -34,7 +34,7 @@ mapping:
             - ['BRIGHTNESS', 'protopie/slider/value']           
         value_to_payload:
             - ['ON', 'on'] 
-            - ['OFF', 'off']  
+            - ['OFF', 'off']
             - ['raw_value', 'raw_payload']                
     # Mapping for when we have to translate mqtt patterns to socketio patterns, for different scenarios
     mqtt_to_socketio:

@@ -130,6 +130,15 @@ def on_message_from_broker(client, userdata, msg):
     # MAPPINGS (BUSINESS LOGIC):
     protopie_msg = None
     protopie_value = None
+    if mqtt_payload == 'raw_payload':
+        # Can't use this as a value in Protopie Studio to send signal
+        # as it is a revserved for config file's relay conventions
+        if not tui_mode:
+            print('[MQTT] received payload: \'raw_payload\' can\'t be used as it is reserved')
+        else:
+            # [BUG] [Not getting printed don't know why]
+            pl.output_msg_buff = ['[MQTT] \'raw_payload\' can\'t be used as it is reserved']
+        return
     map_io(mqtt_topic, mqtt_payload, protopie_msg, protopie_value)
 
 # Secure mqtt based on if security is enabled or not
