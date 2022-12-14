@@ -156,14 +156,12 @@ def on_message_from_broker(client, userdata, msg):
     else:
         mqtt_payload = msg.payload
         mqtt_payload = mqtt_payload.strip()
-     
     if not tui_mode:
         print('\n[MQTT] RECEIVED Topic:\'' + mqtt_topic + '\', Message:\'' +
               mqtt_payload + '\' + from MQTT broker')
     else:
         # [BUG] [Not getting printed don't know why]
-        pl.output_msg_buff = ['', '[MQTT] RECEIVED Topic:\'' + mqtt_topic + '\', Message:\'' + mqtt_payload + '\'', '']
-   
+        pl.output_msg_buff = ['', '[MQTT] RECEIVED Topic:\'' + mqtt_topic + '\', Message:\'' + mqtt_payload + '\'', ''] 
     # MAPPINGS (BUSINESS LOGIC):
     if mqtt_payload == 'raw_payload' or mqtt_payload == 'raw_value':
         # Can't use this as a value in Protopie Studio to send signal
