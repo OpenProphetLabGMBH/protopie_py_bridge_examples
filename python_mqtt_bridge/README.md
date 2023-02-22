@@ -1,5 +1,6 @@
 # README
 
+__NOTE:__ Demo supporting & complimentary example hardware project is [here](https://github.com/OpenProphetLabGMBH/demo_esp32_base)
 
 ## Why?
 
